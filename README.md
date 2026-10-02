@@ -32,8 +32,8 @@ npm run seed
 
 The project is picked from the menu next to the logo. The choice goes into the
 URL (`?project=crocobet-pl`), so a view can be bookmarked or shared, and is
-remembered for next time. **ყველა პროექტი** in that menu opens the dashboard;
-**ახალი პროექტი** creates one.
+remembered for next time. **All projects** in that menu opens the dashboard;
+**New project** creates one.
 
 ## Features
 

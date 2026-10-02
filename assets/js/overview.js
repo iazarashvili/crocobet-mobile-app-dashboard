@@ -4,13 +4,13 @@
   const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
 
   const when = iso => {
-    if (!iso) return 'ჯერ არ გაშვებულა';
+    if (!iso) return 'not run yet';
     const diff = Date.now() - new Date(iso).getTime();
     const min = Math.round(diff / 60000);
-    if (min < 1) return 'ახლახან';
-    if (min < 60) return `${min} წთ წინ`;
+    if (min < 1) return 'just now';
+    if (min < 60) return `${min} min ago`;
     const hours = Math.round(min / 60);
-    if (hours < 24) return `${hours} სთ წინ`;
+    if (hours < 24) return `${hours} h ago`;
     return new Date(iso).toISOString().slice(0, 10);
   };
 
@@ -24,30 +24,30 @@
           <span class="ov-flag">${esc(p.flag || '•')}</span>
           <span class="ov-title">
             <b>${esc(p.name)}</b>
-            <em>${esc(p.nameKa || p.country || '')}</em>
+            <em>${esc(p.country || '')}</em>
           </span>
           <span class="ov-pct">${pct}%</span>
         </header>
         <div class="progress"><i class="p" style="width:${w(p.passed)}"></i><i class="f" style="width:${w(p.failed)}"></i></div>
         <div class="ov-nums">
-          <span><b>${p.total}</b>სულ</span>
+          <span><b>${p.total}</b>total</span>
           <span class="pass"><b>${p.passed}</b>passed</span>
           <span class="fail"><b>${p.failed}</b>failed</span>
           <span class="idle"><b>${p.untested}</b>not run</span>
         </div>
-        <footer>ბოლო ცვლილება: ${esc(when(p.lastRun))}</footer>
+        <footer>Last change: ${esc(when(p.lastRun))}</footer>
       </a>`;
   }
 
   async function render() {
     const content = document.getElementById('content');
-    document.title = 'ყველა პროექტი — Test Cases';
+    document.title = 'All projects — Test Cases';
 
     let projects = [];
     try {
       projects = (await window.CrocoApi.overview()).projects || [];
     } catch (err) {
-      content.innerHTML = `<div class="empty"><b>ვერ ჩაიტვირთა</b>${esc(err.message)}</div>`;
+      content.innerHTML = `<div class="empty"><b>Could not load</b>${esc(err.message)}</div>`;
       return;
     }
 
@@ -74,16 +74,16 @@
       <span><i class="u"></i>Not run <b>${sum.untested}</b></span>`;
 
     document.getElementById('tree').innerHTML =
-      '<p class="tree-empty">აირჩიე პროექტი ზემოთ, ან დააწკაპე ბარათზე.</p>';
+      '<p class="tree-empty">Pick a project above, or click a card.</p>';
     const foot = document.querySelectorAll('.sidebar-foot span');
-    if (foot[0]) foot[0].textContent = `${projects.length} პროექტი`;
+    if (foot[0]) foot[0].textContent = `${projects.length} projects`;
     if (foot[1]) foot[1].textContent = 'DB: SQLite';
 
     content.innerHTML = `
       <header class="page-head">
         <div class="crumbs"><b>Test Case Repository</b></div>
-        <h1>ყველა პროექტი <span style="color:var(--text-faint);font-weight:400">· Overview</span></h1>
-        <p class="lead">ყველა ქვეყნის პროგრესი ერთად. ბარათზე დაწკაპებით გადახვალ პროექტში.</p>
+        <h1>All projects</h1>
+        <p class="lead">Progress across every country. Click a card to open its project.</p>
       </header>
       <div class="ov-grid">${projects.map(card).join('')}</div>`;
   }

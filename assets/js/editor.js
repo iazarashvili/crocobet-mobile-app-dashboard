@@ -20,17 +20,17 @@
         <div class="modal" role="dialog" aria-modal="true">
           <header class="modal-head">
             <h2>${esc(title)}</h2>
-            <button class="icon-btn" data-close title="დახურვა">
+            <button class="icon-btn" data-close title="Close">
               <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
             </button>
           </header>
           <form class="modal-body" novalidate>${body}</form>
           <footer class="modal-foot">
             <span class="modal-error" hidden></span>
-            ${onDelete ? `<button type="button" class="btn danger" data-delete>${I_TRASH}${esc(deleteLabel || 'წაშლა')}</button>` : ''}
+            ${onDelete ? `<button type="button" class="btn danger" data-delete>${I_TRASH}${esc(deleteLabel || 'Delete')}</button>` : ''}
             <span class="spacer"></span>
-            <button type="button" class="btn" data-close>გაუქმება</button>
-            <button type="button" class="btn primary" data-submit>${esc(submitLabel || 'შენახვა')}</button>
+            <button type="button" class="btn" data-close>Cancel</button>
+            <button type="button" class="btn primary" data-submit>${esc(submitLabel || 'Save')}</button>
           </footer>
         </div>
       </div>`;
@@ -66,7 +66,7 @@
       if (e.target.closest('[data-close]')) return close();
       if (e.target.closest('[data-submit]')) return submit();
       if (e.target.closest('[data-delete]')) {
-        if (!confirm('ნამდვილად წაიშალოს? ეს ქმედება შეუქცევადია.')) return;
+        if (!confirm('Delete for real? This cannot be undone.')) return;
         busy(true);
         try {
           await onDelete();
@@ -109,12 +109,12 @@
   const stepRow = (step, i) => `
     <tr class="step-row">
       <td class="s-n">${i + 1}</td>
-      <td><textarea name="action" rows="2" placeholder="რას აკეთებს ტესტერი">${esc(step.action || '')}</textarea></td>
-      <td><textarea name="expected" rows="2" placeholder="რა უნდა მოხდეს">${esc(step.expected || '')}</textarea></td>
+      <td><textarea name="action" rows="2" placeholder="What the tester does">${esc(step.action || '')}</textarea></td>
+      <td><textarea name="expected" rows="2" placeholder="What should happen">${esc(step.expected || '')}</textarea></td>
       <td class="s-act">
-        <button type="button" class="icon-btn" data-step-up title="ზემოთ"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
-        <button type="button" class="icon-btn" data-step-down title="ქვემოთ"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg></button>
-        <button type="button" class="icon-btn danger" data-step-remove title="წაშლა">${I_TRASH}</button>
+        <button type="button" class="icon-btn" data-step-up title="Move up"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+        <button type="button" class="icon-btn" data-step-down title="Move down"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg></button>
+        <button type="button" class="icon-btn danger" data-step-remove title="Delete">${I_TRASH}</button>
       </td>
     </tr>`;
 
@@ -169,34 +169,34 @@
   function caseForm(existing, groupId) {
     const state = window.CrocoState;
     if (!state.suites.some(s => s.groups.length)) {
-      alert('ჯერ შექმენი სუიტა და ჯგუფი.');
+      alert('Create a suite and a group first.');
       return;
     }
     const c = existing || { ref: '', title: '', tags: [], steps: [{ action: '', expected: '' }], precondition: '' };
     const target = groupId || c.groupId || state.suites.find(s => s.groups.length).groups[0].id;
 
     const modal = open({
-      title: existing ? `ქეისის რედაქტირება — ${c.ref}` : 'ახალი ქეისი',
-      submitLabel: existing ? 'შენახვა' : 'შექმნა',
-      deleteLabel: 'ქეისის წაშლა',
+      title: existing ? `Edit case — ${c.ref}` : 'New case',
+      submitLabel: existing ? 'Save' : 'Create',
+      deleteLabel: 'Delete case',
       body: `
         <div class="f-grid">
-          ${field('ID / Ref', 'ref', c.ref, { required: true, placeholder: 'FAV2-123 ან PL-7' })}
+          ${field('ID / Ref', 'ref', c.ref, { required: true, placeholder: 'FAV2-123 or PL-7' })}
           <label class="f">
-            <span>ჯგუფი <i>*</i></span>
+            <span>Group <i>*</i></span>
             <select name="groupId">${groupOptions(target)}</select>
           </label>
         </div>
-        ${field('სათაური', 'title', c.title, { required: true, textarea: true, rows: 2 })}
-        ${field('ტეგები', 'tags', (c.tags || []).join(', '), { placeholder: 'FAV-SMOKE, login-feat', hint: 'მძიმით გამოყოფილი' })}
-        ${field('Precondition', 'precondition', c.precondition || '', { textarea: true, rows: 2, hint: 'ცარიელი = ჯგუფის precondition მოქმედებს' })}
+        ${field('Title', 'title', c.title, { required: true, textarea: true, rows: 2 })}
+        ${field('Tags', 'tags', (c.tags || []).join(', '), { placeholder: 'FAV-SMOKE, login-feat', hint: 'Comma-separated' })}
+        ${field('Precondition', 'precondition', c.precondition || '', { textarea: true, rows: 2, hint: 'Empty = the group precondition applies' })}
         <div class="steps-edit">
           <div class="steps-head">
-            <span>ნაბიჯები <i>*</i></span>
-            <button type="button" class="btn ghost small" data-step-add>${I_PLUS} ნაბიჯი</button>
+            <span>Steps <i>*</i></span>
+            <button type="button" class="btn ghost small" data-step-add>${I_PLUS} Step</button>
           </div>
           <table>
-            <thead><tr><th>#</th><th>ნაბიჯი / Step</th><th>მოსალოდნელი შედეგი</th><th></th></tr></thead>
+            <thead><tr><th>#</th><th>Step</th><th>Expected result</th><th></th></tr></thead>
             <tbody>${(c.steps.length ? c.steps : [{}]).map(stepRow).join('')}</tbody>
           </table>
         </div>`,
@@ -221,20 +221,18 @@
   }
 
   function suiteForm(existing) {
-    const s = existing || { id: '', name: '', nameKa: '', summary: '', icon: '' };
+    const s = existing || { id: '', name: '', summary: '', icon: '' };
     open({
-      title: existing ? `სუიტა — ${s.name}` : 'ახალი სუიტა',
-      submitLabel: existing ? 'შენახვა' : 'შექმნა',
-      deleteLabel: 'სუიტის წაშლა (ჯგუფებითა და ქეისებით)',
+      title: existing ? `Suite — ${s.name}` : 'New suite',
+      submitLabel: existing ? 'Save' : 'Create',
+      deleteLabel: 'Delete suite (with its groups and cases)',
       body: `
-        ${field('სახელი', 'name', s.name, { required: true, placeholder: 'Authorization' })}
-        ${field('სახელი ქართულად', 'nameKa', s.nameKa || '', { placeholder: 'ავტორიზაცია' })}
-        ${field('აღწერა', 'summary', s.summary || '', { textarea: true, rows: 2 })}
+        ${field('Name', 'name', s.name, { required: true, placeholder: 'Authorization' })}
+        ${field('Description', 'summary', s.summary || '', { textarea: true, rows: 2 })}
         ${existing ? field('ID', 'id', s.id, { readonly: true }) : ''}`,
       onSubmit: async data => {
         const payload = {
           name: data.get('name').trim(),
-          nameKa: data.get('nameKa').trim(),
           summary: data.get('summary').trim(),
         };
         if (existing) await api().call(`api/cases?kind=suite&project=${encodeURIComponent(project())}&id=${encodeURIComponent(s.id)}`, 'PUT', payload);
@@ -248,7 +246,7 @@
 
   function groupForm(existing) {
     const state = window.CrocoState;
-    if (!state.suites.length) { alert('ჯერ შექმენი სუიტა.'); return; }
+    if (!state.suites.length) { alert('Create a suite first.'); return; }
 
     const g = existing || { id: '', name: '', file: '', precondition: '' };
     const suiteOf = existing
@@ -256,19 +254,19 @@
       : state.suiteId || state.suites[0].id;
 
     open({
-      title: existing ? `ჯგუფი — ${g.name}` : 'ახალი ჯგუფი',
-      submitLabel: existing ? 'შენახვა' : 'შექმნა',
-      deleteLabel: 'ჯგუფის წაშლა (ქეისებით)',
+      title: existing ? `Group — ${g.name}` : 'New group',
+      submitLabel: existing ? 'Save' : 'Create',
+      deleteLabel: 'Delete group (with its cases)',
       body: `
         <label class="f">
-          <span>სუიტა <i>*</i></span>
+          <span>Suite <i>*</i></span>
           <select name="suiteId">
             ${state.suites.map(s => `<option value="${esc(s.id)}"${s.id === suiteOf ? ' selected' : ''}>${esc(s.name)}</option>`).join('')}
           </select>
         </label>
-        ${field('სახელი', 'name', g.name, { required: true, placeholder: 'Login with SMS code' })}
-        ${field('ფაილი', 'file', g.file || '', { placeholder: 'tests/authorization/login_test.dart' })}
-        ${field('Precondition', 'precondition', g.precondition || '', { textarea: true, rows: 2, hint: 'ჯგუფის ყველა ქეისზე გავრცელდება' })}`,
+        ${field('Name', 'name', g.name, { required: true, placeholder: 'Login with SMS code' })}
+        ${field('File', 'file', g.file || '', { placeholder: 'tests/authorization/login_test.dart' })}
+        ${field('Precondition', 'precondition', g.precondition || '', { textarea: true, rows: 2, hint: 'Applies to every case in the group' })}`,
       onSubmit: async data => {
         const payload = {
           suiteId: data.get('suiteId'),
@@ -287,25 +285,23 @@
 
   function projectForm() {
     open({
-      title: 'ახალი პროექტი',
-      submitLabel: 'შექმნა',
+      title: 'New project',
+      submitLabel: 'Create',
       body: `
         <div class="f-grid">
-          ${field('ID', 'id', '', { required: true, placeholder: 'crocobet-pl', hint: 'პატარა ასოები და დეფისი' })}
-          ${field('დროშა', 'flag', '', { placeholder: '🇵🇱' })}
+          ${field('ID', 'id', '', { required: true, placeholder: 'crocobet-pl', hint: 'Lowercase letters and hyphens' })}
+          ${field('Flag', 'flag', '', { placeholder: '🇵🇱' })}
         </div>
-        ${field('სახელი', 'name', '', { required: true, placeholder: 'Crocobet Poland' })}
-        ${field('სახელი ქართულად', 'nameKa', '', { placeholder: 'კროკობეთ პოლონეთი' })}
+        ${field('Name', 'name', '', { required: true, placeholder: 'Crocobet Poland' })}
         <div class="f-grid">
-          ${field('ქვეყანა', 'country', '', { placeholder: 'PL' })}
-          ${field('პლატფორმა', 'platform', '', { placeholder: 'Android' })}
+          ${field('Country', 'country', '', { placeholder: 'PL' })}
+          ${field('Platform', 'platform', '', { placeholder: 'Android' })}
         </div>`,
       onSubmit: async data => {
         const id = data.get('id').trim();
         await api().call('api/projects', 'POST', {
           id,
           name: data.get('name').trim(),
-          nameKa: data.get('nameKa').trim(),
           country: data.get('country').trim(),
           flag: data.get('flag').trim(),
           platform: data.get('platform').trim(),

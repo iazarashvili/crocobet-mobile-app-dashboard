@@ -92,7 +92,7 @@
     mirror(state.statuses);
     api.setStatus(state.projectId, ref, value)
       .then(() => banner(null))
-      .catch(() => banner('სერვერზე ჩაწერა ვერ მოხერხდა — ცვლილება მხოლოდ ამ ბრაუზერშია. გადატვირთე გვერდი, როცა სერვერი დაბრუნდება.'));
+      .catch(() => banner('Could not save to the server — the change exists only in this browser. Reload the page once the server is back.'));
   }
 
   /* ---------- filtering ---------- */
@@ -129,7 +129,7 @@
   /* ---------- project picker ---------- */
   function renderProjectPicker() {
     const current = state.projectId === OVERVIEW
-      ? { flag: '◎', name: 'ყველა პროექტი' }
+      ? { flag: '◎', name: 'All projects' }
       : state.project || { flag: '', name: '…' };
 
     el.projectName.innerHTML = `<span class="flag">${esc(current.flag || '')}</span>${esc(current.name)}`;
@@ -144,14 +144,14 @@
 
     el.projectMenu.innerHTML = `
       <button class="project-row${state.projectId === OVERVIEW ? ' is-active' : ''}" data-project="${OVERVIEW}" role="option">
-        <span class="flag">◎</span><span class="p-name">ყველა პროექტი</span>
+        <span class="flag">◎</span><span class="p-name">All projects</span>
         <span class="p-count">${state.projects.length}</span>
       </button>
       <div class="project-sep"></div>
       ${rows}
       <div class="project-sep"></div>
       <button class="project-row add" data-project="__new__" role="option">
-        <span class="flag">${I_PLUS}</span><span class="p-name">ახალი პროექტი</span>
+        <span class="flag">${I_PLUS}</span><span class="p-name">New project</span>
       </button>`;
   }
 
@@ -206,7 +206,7 @@
             ${groups}
           </div>
         </div>`;
-    }).join('') || '<p class="tree-empty">სუიტა ჯერ არ არის — დაამატე ქვემოთ.</p>';
+    }).join('') || '<p class="tree-empty">No suites yet — add one below.</p>';
   }
 
   /* ---------- content ---------- */
@@ -247,13 +247,13 @@
             </span>
             <span class="case-steps-n">${(c.steps || []).length} step</span>
           </button>
-          <button class="icon-btn" data-edit-case="${c.id}" title="რედაქტირება">${I_EDIT}</button>
+          <button class="icon-btn" data-edit-case="${c.id}" title="Edit">${I_EDIT}</button>
           ${statusControl(c.ref)}
         </div>
         <div class="case-body">
           ${pre}
           <table class="steps">
-            <thead><tr><th>#</th><th>ნაბიჯი / Step</th><th>მოსალოდნელი შედეგი / Expected result</th></tr></thead>
+            <thead><tr><th>#</th><th>Step</th><th>Expected result</th></tr></thead>
             <tbody>${rows}</tbody>
           </table>
         </div>
@@ -265,13 +265,13 @@
     const pre = g.precondition ? `<div class="precond"><strong>Precondition:</strong> ${highlight(g.precondition)}</div>` : '';
     const body = cases.length
       ? `<div class="cases">${cases.map(caseCard).join('')}</div>`
-      : `<p class="group-empty">ამ ფილტრით ქეისი არ არის.</p>`;
+      : `<p class="group-empty">No cases match this filter.</p>`;
 
     return `<section class="group-block" data-group="${esc(g.id)}">
         <h2>${esc(g.name)} <span class="n">${cases.length}</span>
           <span class="group-actions">
-            <button class="icon-btn" data-add-case="${esc(g.id)}" title="ახალი ქეისი">${I_PLUS}</button>
-            <button class="icon-btn" data-edit-group="${esc(g.id)}" title="ჯგუფის რედაქტირება">${I_EDIT}</button>
+            <button class="icon-btn" data-add-case="${esc(g.id)}" title="New case">${I_PLUS}</button>
+            <button class="icon-btn" data-edit-group="${esc(g.id)}" title="Edit group">${I_EDIT}</button>
           </span>
         </h2>
         <p class="group-file">${esc(g.file)}</p>
@@ -283,7 +283,7 @@
   function renderContent() {
     const suite = state.suites.find(s => s.id === state.suiteId) || state.suites[0];
     if (!suite) {
-      el.content.innerHTML = `<div class="empty"><b>ცარიელი პროექტი</b>დაამატე სუიტა და ჯგუფი მარცხნივ, შემდეგ ქეისები.</div>`;
+      el.content.innerHTML = `<div class="empty"><b>Empty project</b>Add a suite and a group on the left, then cases.</div>`;
       return;
     }
 
@@ -301,8 +301,8 @@
           <b>${esc(suite.name)}</b>
           ${state.groupId ? `<svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg><b>${esc(groups[0] ? groups[0].name : '')}</b>` : ''}
         </div>
-        <h1>${esc(suite.nameKa)} <span style="color:var(--text-faint);font-weight:400">· ${esc(suite.name)}</span>
-          <button class="icon-btn" data-edit-suite="${esc(suite.id)}" title="სუიტის რედაქტირება">${I_EDIT}</button>
+        <h1>${esc(suite.name)}
+          <button class="icon-btn" data-edit-suite="${esc(suite.id)}" title="Edit suite">${I_EDIT}</button>
         </h1>
         <p class="lead">${esc(suite.summary)}</p>
         <div class="meta-row">
@@ -316,7 +316,7 @@
 
     const body = groups.length
       ? groups.map(groupBlock).join('')
-      : `<div class="empty"><b>ჯგუფი არ არის</b>დაამატე ჯგუფი მარცხნივ.</div>`;
+      : `<div class="empty"><b>No groups</b>Add a group on the left.</div>`;
 
     el.content.innerHTML = head + body;
     if (state.scrollTop) {
@@ -538,12 +538,12 @@
     try {
       listed = await api.projects();
     } catch (_) {
-      return fatal('სერვერი მიუწვდომელია', 'ქეისები ბაზაშია, ამიტომ აპს სერვერი სჭირდება.<br>გაუშვი <code>npm start</code> და გახსენი <code>http://localhost:8787</code>.');
+      return fatal('Server unavailable', 'The cases live in the database, so the app needs the server.<br>Run <code>npm start</code> and open <code>http://localhost:8787</code>.');
     }
 
     state.projects = listed.projects || [];
     if (!state.projects.length) {
-      return fatal('პროექტი ჯერ არ არის', 'გაუშვი <code>node scripts/seed-from-data.js</code> ან დაამატე პროექტი API-ით.');
+      return fatal('No projects yet', 'Run <code>node scripts/seed-from-data.js</code> or add a project through the API.');
     }
 
     const params = new URLSearchParams(location.search);
@@ -563,7 +563,7 @@
     try {
       await loadProject(state.projectId);
     } catch (err) {
-      return fatal('პროექტი ვერ ჩაიტვირთა', esc(err.message));
+      return fatal('Could not load the project', esc(err.message));
     }
     renderProjectPicker();
     render();
