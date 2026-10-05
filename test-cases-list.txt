@@ -1,0 +1,211 @@
+========================================
+  TEST CASES - CROCOBET MOBILE APP
+========================================
+
+
+========== CROCOBET GEORGIA ==========
+
+--- Authorization / Login with username and password ---
+FAV2-13    Successful login with valid username and password
+FAV2-14    Login button is disabled when the username field is left empty
+FAV2-15    Login button is disabled when the password field is left empty
+FAV2-17    Login fails with an incorrect username or password
+FAV2-19    Loading animation appears while credentials are being verified
+FAV2-39    Login button is disabled when the CAPTCHA length is less than 6 digits
+FAV2-40    User should not be able to enter more than 6 digits in CAPTCHA
+FAV2-44    CAPTCHA field only accepts numeric values
+FAV2-61    Rapid consecutive Login button clicks before the first request completes
+FAV2-62    Login with a username containing mixed RTL and LTR characters
+FAV2-80    CAPTCHA validation with exactly 5 characters entered
+FAV2-95    Login button remains disabled after clearing a previously valid CAPTCHA field
+FAV2-97    Login with a username containing homograph (lookalike Unicode) characters
+
+--- Authorization / Login with SMS code ---
+FAV2-101   Login button disabled state when the SMS code field is empty
+FAV2-102   Customer logs in with a valid SMS code
+
+--- Product Pages / Game category filters and blocks ---
+FAV2-104   Slots, Casino and Fast games page loads with the default state showing the All filter and the game category blocks
+FAV2-114   Each category block displays the primary block quantity from the admin configuration
+FAV2-115   Customer can scroll each game category filters block
+FAV2-116   Clicking the "All" button displays all games under that category
+
+--- Product Pages / Category and subcategory navigation ---
+FAV2-110   Subcategories list is displayed in the configured order
+FAV2-111   Each subcategory displays a name and an icon
+FAV2-112 + FAV2-113   Customer can scroll the subcategories list horizontally
+FAV2-350   Games Filter and Search pop-up is not accessible in landscape mode
+
+--- Product Pages / Filtering and favorites ---
+FAV2-119   "Add to Favorite" button is displayed on each game
+FAV2-127 + FAV2-128 + FAV2-122   Customer can add and remove a game from favorites and filter by Favorites
+FAV2-123 + FAV2-125   Filtering by provider displays only that provider games and combines with a category filter using AND logic
+FAV2-124 + FAV2-126   Filtering by a category filter displays the appropriate games and can be unselected
+FAV2-351 + FAV2-352   Landscape is blocked while the Search and Filter pop-up is open and restored after closing it
+
+--- Product Pages / Filter state preservation ---
+FAV2-368   Filter state preservation with the maximum number of simultaneous filters
+
+--- Product Pages / Game search ---
+FAV2-140   Basic search functionality with instant results
+FAV2-141   Clicking a search result launches the game
+FAV2-329 + FAV2-363   Search validation on the 3 character boundary in Slots search
+FAV2-332   "No game found" message when the search returns no results in Slots search
+FAV2-338   Search validation on the Casino page with less than 3 characters
+FAV2-364   Search behaviour with extremely long input
+FAV2-365   Search with special characters and SQL injection patterns
+FAV2-375   Search results with unicode and multi-byte characters
+FAV2-383   Search with only whitespace characters
+FAV2-385   Swipe down gesture on the search pop-up with a partial swipe
+
+--- Product Pages / Banners ---
+FAV2-267   Customer can manually scroll banners forward and backward
+FAV2-268   Banners scroll automatically within the configured time interval
+FAV2-269   Clicking a banner redirects to the configured URL
+FAV2-272   Each page shows only its own configured banners
+
+--- Product Pages / Jackpots ---
+FAV2-132   Jackpots display on the Slots page
+
+--- Product Pages / Top winners ---
+FAV2-186 + FAV2-214   Top Wins section is displayed on the Home page on initial load
+FAV2-187 + FAV2-190 + FAV2-192   Top Wins section on the Slots page displays the default records with all card fields
+FAV2-203 + FAV2-204   Win amount is displayed with the lari symbol and the coefficient in multiplier format
+FAV2-195 + FAV2-196 + FAV2-255 + FAV2-199   View All opens the Top Wins modal on the daily period with fully populated rows
+FAV2-200   Pop-up list is sorted by win amount in descending order
+FAV2-209   Switching between the Daily and Monthly tabs updates the displayed data
+FAV2-208   Modal can be closed after opening
+FAV2-201 + FAV2-202   Tapping rows in the Top Wins modal opens each game
+
+--- Transfers/Deposit / Deposit entry points ---
+FAV2-747 + FAV2-827 + FAV2-748   Deposit pop-up opens from the navigation bar with the expected header and form and closes on the X button
+FAV2-825   Deposit pop-up can be accessed from the Deposit button on the Profile screen
+FAV2-1232  Deposit pop-up can be opened from the in-game panel
+FAV2-1233  Top bar deposit button displays the current balance and opens the deposit pop-up
+FAV2-823   Deposit pop-up state when the user leaves the payment page and returns
+
+--- Transfers/Deposit / Deposit amount and limits ---
+FAV2-758 + FAV2-759 + FAV2-767   Predefined deposit amounts are displayed, populate the amount field and enable the Continue button
+FAV2-762 + FAV2-791 + FAV2-792 + FAV2-766   Amounts below the minimum and negative amounts keep the Continue button disabled
+FAV2-794 + FAV2-806 + FAV2-811 + FAV2-761   Malformed and non-numeric amounts are normalised or rejected
+FAV2-790 + FAV2-820   Provider maximum is accepted and amounts above it are rejected
+FAV2-1236  Amount limits are refreshed when switching between deposit method tabs
+FAV2-1237  Limits are refreshed when switching the payment provider
+
+--- Transfers/Deposit / Deposit methods ---
+FAV2-752   User without saved cards sees the no-cards state on the Card tab
+FAV2-1240 + FAV2-788   MBank tab lists only active bank providers
+FAV2-1241  MBank Continue button requires both a provider and a valid amount
+FAV2-1242  NEW badge is displayed on the MBank deposit tab
+
+--- Transfers/Deposit / Deposit with saved cards ---
+FAV2-749   Saved cards are displayed when the user has existing cards
+FAV2-751 + FAV2-753   New card tile opens the provider picker with the active providers
+FAV2-754   Selecting another saved card moves the selection
+FAV2-795   Rapidly switching between saved cards leaves a single selection
+FAV2-768   Every saved card opens its own bank payment page
+FAV2-755 + FAV2-756   Delete-card dialog is shown from the context menu and cancelling keeps the card
+FAV2-1239  Repeat-last-amount button fills the previous amount and confirms it
+
+--- Transfers/Deposit / Other payment methods ---
+FAV2-780   Other payment methods sheet lists the additional options
+FAV2-781   Cashdesk entry opens the cashdesk screen
+
+--- User Profile / Personal information ---
+PI-01      Avatar edit button opens the photo sheet with the current avatar selected and the Change button disabled
+PI-02      Selecting a different avatar moves the selection and enables the Change button
+PI-03      Reselecting the original avatar disables the Change button again
+PI-04      Tapping the already selected avatar keeps the Change button disabled
+PI-05      Closing the photo sheet without saving leaves the avatar unchanged
+PI-06      Saving a different avatar closes the sheet and updates the profile picture
+PI-07      Tapping the account id copies it to the clipboard
+PI-08      Personal details section lists every field with a value
+PI-09      Account details section shows the email and the id matches the copyable value
+PI-10      Password row is masked and the phone number and close account rows are displayed
+
+--- User Profile / Change password (positive) ---
+PWD-01     Eye button reveals and hides the text in all three password fields
+PWD-02     Valid new password satisfies every rule and enables the Get code button
+PWD-03     Six character new password satisfies the length rule on the lower boundary
+PWD-04     Twenty character new password satisfies the length rule on the upper boundary
+PWD-05     Close button dismisses the change password sheet and returns to Personal information
+
+--- User Profile / Change password (negative) ---
+PWDN-01    New password without an uppercase letter fails the letters rule and blocks submit
+PWDN-02    New password without a digit fails the digit rule and blocks submit
+PWDN-03    New password shorter than six characters fails the length rule and blocks submit
+PWDN-04    New password equal to the username fails the username rule and blocks submit
+PWDN-05    New password longer than twenty characters fails the length rule and blocks submit
+PWDN-06    New password with only uppercase letters fails the letters rule and blocks submit
+PWDN-07    New password of digits only fails the letters rule and blocks submit
+PWDN-08    Five character new password fails the length rule on the lower boundary
+PWDN-09    New password breaking the letters, digit and length rules at once blocks submit
+PWDN-10    Empty new password leaves every rule unsatisfied and blocks submit
+PWDN-11    New password equal to the current password shows an error and blocks submit
+PWDN-12    New password equal to a username that satisfies the other rules keeps the Get code button disabled
+
+--- User Profile / Change phone number ---
+PHN-01     Change number sheet opens from the phone tile with all fields and labels
+PHN-02     Close button dismisses the change number sheet
+PHN-03     Birth year picker is limited to 1900 and the legal gambling age
+PHN-04     Personal number field accepts letters and symbols
+PHN-05     Phone number field accepts only nine digits and rejects other characters
+PHN-06     Incomplete phone number shows the wrong format error
+PHN-07     Phone number that does not start with five shows the wrong format error
+PHN-08     SMS code field and the Get code button stay disabled until the phone number is valid
+PHN-09     Requesting the SMS code shows the sent message and starts the resend countdown
+PHN-10     Changing the phone number during the countdown re-enables the Get code button
+PHN-11     SMS code field accepts only digits
+PHN-12     Change button stays disabled while any field is empty and enables on a complete form
+PHN-13     Submitting a wrong SMS code shows the wrong SMS code error that clears on edit
+PHN-14     Submitting wrong personal details shows the error on the personal number and birth year fields
+PHN-15     Submitting a correct personal number with a wrong birth year shows the wrong personal details error
+PHN-16     Requesting the SMS code for an already registered phone number shows the number taken modal and Back returns to the sheet
+PHN-17     Resubmitting the same data keeps the Change button disabled until a field changes
+
+--- User Profile / Change language ---
+LANG-01    Switching the language to English and back to Georgian retranslates the profile screen
+
+--- User Profile / Notification/SMS settings ---
+NOTIF-01   Notification settings screen opens from the profile menu with both options
+NOTIF-02   Marketing notifications sheet opens with the Save button disabled
+NOTIF-03   Flipping the marketing toggle enables Save and flipping it back disables it
+NOTIF-04   Saving the marketing toggle shows the success message and the original value is restored
+NOTIF-05   System notifications sheet lists both options with the Save button disabled
+NOTIF-06   Flipping the login SMS toggle enables Save and flipping it back disables it
+NOTIF-07   Flipping the won ticket SMS toggle enables Save and flipping it back disables it
+NOTIF-08   Saving the won ticket SMS toggle shows the success message and the original value is restored
+
+--- User Profile / Invite a friend ---
+INV-01     Invite friend screen shows the referral code, the share link and the QR code
+INV-02     Copying the invitation code puts it on the clipboard
+INV-03     Share button opens the native share sheet with the referral link
+
+--- User Profile / Promo code ---
+PROMO-01   Invalid promo code shows the activation failed modal and clears the field
+PROMO-02   Activation failed modal is dismissed with a system back and returns to the promo code screen
+PROMO-03   Tapping the back arrow on the promo code screen returns to the Profile screen
+
+--- User Profile / Withdraw ---
+WD-01      Withdraw tab opens from the transfers switch and shows the no-saved-cards state with its texts
+WD-02      Deposit button on the no-saved-cards state moves the user to the deposit form
+WD-03      Deposit and withdraw switch buttons move between both forms in either direction
+WD-04      Transfers pop-up closes on the X button while the withdraw tab is open
+WD-05      Withdraw form of a user with saved cards shows the amount field, the balance, the saved cards and a disabled Withdraw button
+WD-06      Amount below the minimum keeps the Withdraw button disabled and names the minimum
+WD-07      Amount above the wallet balance is rejected with the no-funds message and keeps the Withdraw button disabled
+WD-08      Amounts above the maximum limit are rejected with the same message one lari over the limit and far above it
+WD-09      Valid amount displays the commission rows and enables the Withdraw button
+WD-10      Withdraw button follows the amount when a valid amount is replaced by an invalid one and typed again
+WD-11      Predefined amount fills the amount field and enables the Withdraw button
+WD-12      Selecting another saved card moves the selection and keeps the withdraw form usable
+
+
+========== CROCOBET POLAND ==========
+
+--- Authorization / Login ---
+PL-1       Successful login with valid credentials
+PL-2       Login button is disabled while a field is empty
+
+--- User Profile / Personal information ---
+PL-10      Personal details section lists every field with a value

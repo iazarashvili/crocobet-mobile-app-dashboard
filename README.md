@@ -175,3 +175,36 @@ To back them up, copy `db/crocobet.db`.
 ephemeral, so `db/crocobet.db` would not survive there; a hosted SQL store such
 as Turso (serverless SQLite, same SQL) is the natural fit, and only `lib/db.js`
 would need to change. Nothing in this repo is deployed.
+
+
+  Docker-ზე გაშვება
+
+  1. შექმენი Dockerfile:
+
+  FROM node:18-alpine
+  WORKDIR /app
+  COPY package.json ./
+  RUN npm install --production
+  COPY . .
+  EXPOSE 8787
+  CMD ["node", "server.js"]
+
+  2. აბილდე იმიჯი:
+
+  docker build -t crocobet-dashboard .
+
+  3. გაუშვი კონტეინერი:
+
+  docker run -d -p 8787:8787 --name crocobet crocobet-dashboard
+
+  4. გახსენი ბრაუზერში:
+
+  http://localhost:8787
+
+  ---
+  სასარგებლო ბრძანებები:
+
+  - გაჩერება: docker stop crocobet
+  - წაშლა: docker rm crocobet
+  - ლოგები: docker logs crocobet
+  - რესტარტი: docker restart crocobet
