@@ -160,7 +160,7 @@ window.TEST_DATA.suites.push({
         },
         {
           ref: 'PWD-06',
-          title: 'User changes the password and logs in with the new password',
+          title: 'Change password success case',
           tags: ['password-positive-feat', 'password-feat'],
           precondition: 'Logged in with the change password test account (CHANGE_PASSWORD_USERNAME); its current password is taken from the password service. The account phone number receives the SMS code.',
           steps: [
