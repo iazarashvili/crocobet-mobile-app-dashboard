@@ -27,7 +27,7 @@ npm run seed
 
 | Project | Cases | Source |
 |---|---|---|
-| 🇬🇪 Crocobet Georgia | 147 | written from the Patrol tests in `crocobet-mobile-app/integration_test` |
+| 🇬🇪 Crocobet Georgia | 148 | written from the Patrol tests in `crocobet-mobile-app/integration_test` |
 | 🇵🇱 Crocobet Poland | 3 | skeleton to build on |
 
 The project is picked from the menu next to the logo. The choice goes into the
@@ -74,7 +74,7 @@ crocobet-test-cases/
 │   ├── seed-from-data.js      seeds/*  → database
 │   └── import-patrol.js       *_test.dart → database
 ├── seeds/
-│   ├── crocobet-ge/           the 147 Georgian cases, with steps
+│   ├── crocobet-ge/           the 148 Georgian cases, with steps
 │   └── crocobet-pl/           skeleton
 ├── db/crocobet.db             created on first run, git-ignored
 └── assets/

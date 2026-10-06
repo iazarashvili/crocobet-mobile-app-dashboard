@@ -129,6 +129,7 @@ PWD-02     Valid new password satisfies every rule and enables the Get code butt
 PWD-03     Six character new password satisfies the length rule on the lower boundary
 PWD-04     Twenty character new password satisfies the length rule on the upper boundary
 PWD-05     Close button dismisses the change password sheet and returns to Personal information
+PWD-06     User changes the password and logs in with the new password
 
 --- User Profile / Change password (negative) ---
 PWDN-01    New password without an uppercase letter fails the letters rule and blocks submit

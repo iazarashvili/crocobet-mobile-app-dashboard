@@ -157,6 +157,21 @@ window.TEST_DATA.suites.push({
             { action: 'Open the change password sheet.', expected: 'The sheet is displayed.' },
             { action: 'Tap the close button.', expected: 'The sheet is dismissed and the Personal information screen is displayed.' }
           ]
+        },
+        {
+          ref: 'PWD-06',
+          title: 'User changes the password and logs in with the new password',
+          tags: ['password-positive-feat', 'password-feat'],
+          precondition: 'Logged in with the change password test account (CHANGE_PASSWORD_USERNAME); its current password is taken from the password service. The account phone number receives the SMS code.',
+          steps: [
+            { action: 'Open Profile > Personal information > Change password.', expected: 'The change password sheet is displayed.' },
+            { action: 'Enter the current password, and a new random valid password in the new and repeat password fields.', expected: 'Every password rule is marked as satisfied and the Get code button is enabled.' },
+            { action: 'Tap Get code.', expected: 'An SMS code is sent to the account phone number.' },
+            { action: 'Enter the received SMS code.', expected: 'The Submit button is enabled.' },
+            { action: 'Tap Submit.', expected: 'The password changed success message is displayed with a Login button.' },
+            { action: 'Tap Login on the success message.', expected: 'The user is logged out and the login screen is displayed.' },
+            { action: 'Log in with the username and the new password.', expected: 'Login succeeds and the home screen is displayed.' }
+          ]
         }
       ]
     },
